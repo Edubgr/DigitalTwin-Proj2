@@ -134,6 +134,37 @@ a ângulos corretos no braço físico.
   sentido — `config/moveit_controllers.yaml` já declara o
   `arm_controller` previsto.
 
+## Gravar o firmware na ESP32 (Windows)
+
+O script `upload-esp.ps1` compila `espcontrol.ino` e grava a ESP32 usando
+o ambiente `esp32dev` de `platformio.ini`. Ele procura o PlatformIO no PATH
+e na instalação padrão da extensão PlatformIO IDE do VS Code.
+Se não estiver instalado, instale essa extensão e aguarde sua configuração.
+Na primeira compilação, o PlatformIO pode baixar as ferramentas e bibliotecas.
+
+Conecte a ESP32 por USB e feche o backend e monitores seriais que estejam
+usando a placa. No PowerShell, na raiz deste projeto, execute:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File .\upload-esp.ps1
+```
+
+A porta padrão é `COM7`. Para listar as portas ou selecionar outra:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File .\upload-esp.ps1 -ListPorts
+powershell -NoProfile -ExecutionPolicy Bypass -File .\upload-esp.ps1 -Port COM8
+```
+
+O parâmetro `-ExecutionPolicy Bypass` vale apenas para esse processo.
+Também é possível executar o script de outra pasta, informando seu caminho
+completo entre aspas. O projeto é localizado pela pasta do próprio script.
+
+Ao terminar com sucesso, a ESP32 é reiniciada. Se a porta não puder ser aberta,
+reconecte o USB, confira a porta com `-ListPorts` e feche os programas que a
+estejam utilizando. Se o gravador ficar em `Connecting`, segure o botão
+**BOOT** da placa até começar a gravação.
+
 ## Pacotes
 
 - `problemas2_urdf_description/` — URDF/xacro, malhas STL, launches
